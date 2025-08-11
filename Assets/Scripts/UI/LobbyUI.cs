@@ -49,6 +49,7 @@ public class LobbyUI : MonoBehaviour
     {
         GameSettings.Instance.difficultyLevel = difficultyLevel;
         SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("Scene1", LoadSceneMode.Additive);
     }
 
     // Called by Back button
