@@ -46,9 +46,9 @@ public class LobbyUI : MonoBehaviour
 
     // Called by Start Game button
     public void OnStartGame()
-    {
+    {        
         GameSettings.Instance.difficultyLevel = difficultyLevel;
-        SceneManager.LoadScene("MainScene");        
+        GameManager.Instance.StartNewGame();       
     }
 
     // Called by Back button

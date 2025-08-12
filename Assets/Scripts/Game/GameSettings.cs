@@ -33,4 +33,11 @@ public class GameSettings : MonoBehaviour
     {
         JsonUtility.FromJsonOverwrite(json, this);
     }
+
+    // Reset game settings to default values
+    public void ResetGame()
+    {
+        difficultyLevel = -1;
+        health = 5;       
+    }
 }

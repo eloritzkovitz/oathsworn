@@ -5,6 +5,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    // Start a new game
+    public void StartNewGame()
+    {
+        // Destroy all existing players
+        foreach (var player in Object.FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None))
+        {
+            Destroy(player.gameObject);
+        }
+
+        // Reset global game state
+        if (GameSettings.Instance != null)
+            GameSettings.Instance.ResetGame();
+
+        // Load MainScene
+        LoadScene("MainScene");
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -30,7 +47,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(buildIndex);
     }
 
-    // Communicate with level managers (example: notify on scene load)
+    // Communicate with level managers
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -43,18 +60,36 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Reset player state when the first gameplay scene is loaded
+        if (scene.name == "Scene1")
+        {
+            PlayerHealth player = Object.FindFirstObjectByType<PlayerHealth>();
+            if (player != null)
+            {
+                player.lastCheckpoint = null;
+                player.currentHealth = player.maxHealth;            
+            }
+        }
+
         // Only trigger OnLevelStart for the MainScene
         if (scene.name == "MainScene")
         {
+            // Reset checkpoints for all players
+            PlayerHealth player = Object.FindFirstObjectByType<PlayerHealth>();
+            if (player != null)
+            {
+                player.lastCheckpoint = null;
+            }
+
             LevelManager levelManager = Object.FindFirstObjectByType<LevelManager>();
             if (levelManager != null)
             {
-                levelManager.OnLevelStart();
+              levelManager.OnLevelStart();
             }
         }
     }
 
-    // Example: Call this to quit the game
+    // Quit the game
     public void QuitGame()
     {
         Application.Quit();
