@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 5f;
     public float runRange = 6f;
     public float attackRange = 2f;
+    public float deathAnimLength = 2f;
 
     public AudioClip deathSound;
     private AudioSource audioSource;
@@ -76,6 +77,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    // Called when the enemy dies
     public void Die()
     {
         if (isDead) return;
@@ -90,10 +92,17 @@ public class EnemyAI : MonoBehaviour
         {
             audioSource.Stop();
             audioSource.PlayOneShot(deathSound);
+        }      
+    } 
+
+    // Called when the death animation is complete
+    public void OnDeathAnimationComplete()
+    {
+        Level1Goal goal = FindFirstObjectByType<Level1Goal>();
+        if (goal != null)
+        {
+            goal.OnEnemyKilled();
         }
-
-        float deathAnimDuration = animator.GetCurrentAnimatorStateInfo(0).length;
-        Destroy(gameObject, deathAnimDuration + 0.5f);
-    }
+        Destroy(gameObject);
+    }  
 }
-
