@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class KnightAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     public Transform player;
     public float detectionRange = 5f;
@@ -37,7 +37,7 @@ public class KnightAI : MonoBehaviour
 
             if (distanceToPlayer <= runRange)
             {
-                agent.speed = 5.0f; // Faster run for knight
+                agent.speed = 5.0f; // Faster run for enemy
             }
             else
             {
@@ -58,6 +58,21 @@ public class KnightAI : MonoBehaviour
         {
             agent.ResetPath();
             animator.SetFloat("Speed", 0);
+        }
+    }
+
+    // Triggered when the enemy collides with the player
+    void OnTriggerEnter(Collider other)
+    {
+        if (isDead) return;
+
+        if (other.CompareTag("Player"))
+        {
+            //GameManager manager = FindFirstObjectByType<GameManager>();
+            //if (manager != null)
+            //{
+            //    manager.TriggerDefeat();
+            //}
         }
     }
 
