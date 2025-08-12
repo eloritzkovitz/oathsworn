@@ -69,11 +69,15 @@ public class EnemyAI : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            //GameManager manager = FindFirstObjectByType<GameManager>();
-            //if (manager != null)
-            //{
-            //    manager.TriggerDefeat();
-            //}
+            Debug.Log("Enemy collided with player!");
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                // Reduce player health and return to last checkpoint
+                playerHealth.TakeDamage(1);
+                playerHealth.ReturnToCheckpoint();
+                Debug.Log("Player health reduced!");
+            }
         }
     }
 
