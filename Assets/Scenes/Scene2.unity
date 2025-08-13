@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 674707790}
   - component: {fileID: 674707789}
   m_Layer: 0
-  m_Name: Checkpoint2
+  m_Name: Checkpoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 809981181}
   - component: {fileID: 809981180}
   m_Layer: 0
-  m_Name: Checkpoint3
+  m_Name: Checkpoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 1065118325}
   - component: {fileID: 1065118324}
   m_Layer: 0
-  m_Name: Checkpoint1
+  m_Name: Checkpoint0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 1273823698}
   - component: {fileID: 1273823697}
   m_Layer: 0
-  m_Name: Checkpoint4
+  m_Name: Checkpoint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -929,37 +929,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
   m_PrefabInstance: {fileID: 453060417}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1539982579
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1539982580}
-  m_Layer: 0
-  m_Name: Checkpoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1539982580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539982579}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 827.38025, y: -55.65985, z: 779.5332}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1594024173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1073,6 +1042,7 @@ MonoBehaviour:
   detectionRange: 15
   runRange: 6
   attackRange: 2
+  attackCooldown: 1
   deathAnimLength: 2
   deathSound: {fileID: 0}
 --- !u!95 &1616430084
@@ -1172,6 +1142,7 @@ MonoBehaviour:
   detectionRange: 15
   runRange: 6
   attackRange: 2
+  attackCooldown: 1
   deathAnimLength: 2
   deathSound: {fileID: 0}
 --- !u!95 &1755926708
@@ -1634,7 +1605,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1667,6 +1638,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6dd770c325f8f14ab7adad7f2065519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goalIcon: {fileID: 21300000, guid: 00e5606ca84d3234cabb5b0986484555, type: 3}
+  checkpoints:
+  - {fileID: 674707789}
+  - {fileID: 809981180}
+  - {fileID: 1273823697}
 --- !u!4 &2000381911
 Transform:
   m_ObjectHideFlags: 0
@@ -1730,6 +1706,7 @@ MonoBehaviour:
   detectionRange: 15
   runRange: 6
   attackRange: 2
+  attackCooldown: 1
   deathAnimLength: 2
   deathSound: {fileID: 0}
 --- !u!195 &2000733980
@@ -1769,7 +1746,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2038908387
 Transform:
   m_ObjectHideFlags: 0
@@ -1868,4 +1845,3 @@ SceneRoots:
   - {fileID: 1770531958}
   - {fileID: 1210006073}
   - {fileID: 384836504}
-  - {fileID: 1539982580}

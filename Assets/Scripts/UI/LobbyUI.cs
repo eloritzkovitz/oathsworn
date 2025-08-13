@@ -47,7 +47,7 @@ public class LobbyUI : MonoBehaviour
     // Called by Start Game button
     public void OnStartGame()
     {        
-        GameSettings.Instance.difficultyLevel = difficultyLevel;
+        GameManager.Instance.SetDifficulty(difficultyLevel);
         GameManager.Instance.StartNewGame();       
     }
 

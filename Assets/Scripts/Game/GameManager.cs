@@ -22,6 +22,16 @@ public class GameManager : MonoBehaviour
         LoadScene("MainScene");
     }
 
+    // Set the game difficulty
+    public void SetDifficulty(int difficulty)
+    {
+        if (GameSettings.Instance != null)
+        {
+            GameSettings.Instance.difficultyLevel = difficulty;
+            Debug.Log("Difficulty set in GameManager: " + difficulty);           
+        }
+    }
+
     private void Awake()
     {
         if (Instance == null)

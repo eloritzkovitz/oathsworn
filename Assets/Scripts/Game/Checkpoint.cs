@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public class Checkpoint : MonoBehaviour
             {
                 playerHealth.lastCheckpoint = transform;
                 Debug.Log("Checkpoint reached!");
+
+                // When in scene 2, notify the goal
+                if (SceneManager.GetActiveScene().name == "Scene2")
+                {
+                    var goal = FindFirstObjectByType<Level2Goal>();
+                    if (goal != null)
+                    {
+                        goal.OnCheckpointVisited(this);
+                    }
+                }
             }
         }
     }

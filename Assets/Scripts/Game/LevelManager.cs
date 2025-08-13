@@ -24,12 +24,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        
-    }
+    }   
 
     // Called when the level starts
     public void OnLevelStart()
@@ -43,23 +38,24 @@ public class LevelManager : MonoBehaviour
     // Load a specific level by index
     public void LoadLevel(int index)
     {
-               string sceneName = levelSceneNames[index];
+        string sceneName = levelSceneNames[index];
         if (!SceneManager.GetSceneByName(sceneName).isLoaded)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             Debug.Log($"Loaded level: {sceneName}");
-            currentLevelIndex = index;
+            currentLevelIndex = index;            
         }
         else
         {
             Debug.LogWarning($"Scene {sceneName} is already loaded.");
         }
-    }
+    }    
 
+    // Called when the level is completed
     public void CompleteCurrentLevel()
     {
         StartCoroutine(ShowMessageAndLoadNext());
-    }
+    }    
 
     private IEnumerator ShowMessageAndLoadNext()
     {
