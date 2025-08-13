@@ -539,7 +539,8 @@ MonoBehaviour:
   player: {fileID: 811924784}
   detectionRange: 15
   runRange: 6
-  attackRange: 5
+  attackRange: 2
+  attackCooldown: 3
   deathAnimLength: 2
   deathSound: {fileID: 0}
 --- !u!95 &956741652
@@ -693,6 +694,10 @@ PrefabInstance:
     - target: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616685848737228382, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1001,6 +1006,7 @@ MonoBehaviour:
   detectionRange: 15
   runRange: 6
   attackRange: 2
+  attackCooldown: 1
   deathAnimLength: 2
   deathSound: {fileID: 0}
 --- !u!95 &2135689127

@@ -7,21 +7,24 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 5f;
     public float runRange = 6f;
     public float attackRange = 2f;    
+    public float attackCooldown = 1f;
     public float deathAnimLength = 2f;
 
     public AudioClip deathSound;
     private AudioSource audioSource;
 
     private NavMeshAgent agent;
-    private Animator animator;
-    private bool isAttacking = false;
+    private Animator animator;    
     private bool isDead = false;
+    private float attackTimer = 0f;
+    private bool hasHitPlayer = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        hasHitPlayer = false;
     }
 
     void Update()
@@ -32,58 +35,60 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange)
         {
-            if (!isAttacking)
+            agent.SetDestination(player.position);
+            float speed = agent.velocity.magnitude;
+            animator.SetFloat("Speed", speed);
+
+            if (distanceToPlayer <= runRange)
             {
-                agent.SetDestination(player.position);
-                float speed = agent.velocity.magnitude;
-                animator.SetFloat("Speed", speed);
- 
-                if (distanceToPlayer <= runRange)
-                {
-                    agent.speed = 5.0f; // Faster run for enemy
-                }
-                else
-                {
-                    agent.speed = 2.5f; // Normal walk
-                }
+                agent.speed = 5.0f;
+            }
+            else
+            {
+                agent.speed = 2.5f;
             }
 
-            if (distanceToPlayer <= attackRange && !isAttacking)
+            // Attack logic
+            if (distanceToPlayer <= attackRange)
             {
                 agent.ResetPath();
                 animator.SetFloat("Speed", 0);
-                animator.SetTrigger("Attack");
-                isAttacking = true;
+
+                if (!hasHitPlayer)
+                {
+                    attackTimer -= Time.deltaTime;
+                    if (attackTimer <= 0f)
+                    {
+                        animator.SetTrigger("Attack");
+                        attackTimer = attackCooldown;
+                        hasHitPlayer = true;
+                    }
+                }
             }
+            else
+            {
+                attackTimer = 0f;
+                hasHitPlayer = false;
+            }                      
         }
         else
         {
             agent.ResetPath();
             animator.SetFloat("Speed", 0);
-            isAttacking = false;
+            attackTimer = 0f;
+            hasHitPlayer = false;
         }
     }
 
-    // Triggered when the enemy collides with the player
-    void OnTriggerEnter(Collider other)
-    {
-        if (isDead) return;
-
-        if (other.CompareTag("Player"))
-        {
-            // Play attack animation
-            animator.SetTrigger("Attack");
-        }
-    }
-
-    // Called when the attack animation hits the player
+    // Called by Animation Event at the attack "hit" frame
     public void OnAttackAnimationHit()
     {
         if (player == null || isDead) return;
-
+ 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= attackRange)
         {
+            animator.SetTrigger("Hit");
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
@@ -92,9 +97,9 @@ public class EnemyAI : MonoBehaviour
                 Debug.Log("Player health reduced!");
             }
         }
-    }    
+    }
 
-    // Called when the enemy dies
+    // Called by Animation Event when the enemy dies
     public void Die()
     {
         if (isDead) return;
@@ -102,17 +107,16 @@ public class EnemyAI : MonoBehaviour
         isDead = true;
         agent.isStopped = true;
         animator.SetTrigger("Die");
-        animator.SetBool("isAttacking", false);
         animator.SetFloat("Speed", 0);
 
         if (audioSource && deathSound)
         {
             audioSource.Stop();
             audioSource.PlayOneShot(deathSound);
-        }      
-    } 
+        }
+    }
 
-    // Called when the death animation is complete
+    // Called by Animation Event when the death animation completes
     public void OnDeathAnimationComplete()
     {
         Level1Goal goal = FindFirstObjectByType<Level1Goal>();
@@ -121,5 +125,5 @@ public class EnemyAI : MonoBehaviour
             goal.OnEnemyKilled();
         }
         Destroy(gameObject);
-    }  
+    }
 }
