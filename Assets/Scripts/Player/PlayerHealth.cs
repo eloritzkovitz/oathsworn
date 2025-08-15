@@ -26,6 +26,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    // Called when the player enters a trigger collider
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            Debug.Log("Player collided with water!");
+            TakeDamage(1);
+            ReturnToCheckpoint();
+        }
+    }
+
     // Called when the player takes damage
     public void TakeDamage(int amount)
     {

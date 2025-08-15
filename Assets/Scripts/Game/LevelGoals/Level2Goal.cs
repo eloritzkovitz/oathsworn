@@ -21,7 +21,8 @@ public class Level2Goal : MonoBehaviour, ILevelGoal
     // Called when a checkpoint is visited
     public void OnCheckpointVisited(Checkpoint checkpoint)
     {
-        if (!visitedCheckpoints.Contains(checkpoint))
+        // Only count if this checkpoint is in the assigned list
+        if (System.Array.IndexOf(checkpoints, checkpoint) >= 0 && !visitedCheckpoints.Contains(checkpoint))
         {
             Debug.Log($"Checkpoint visited: {checkpoint.name}");
             visitedCheckpoints.Add(checkpoint);

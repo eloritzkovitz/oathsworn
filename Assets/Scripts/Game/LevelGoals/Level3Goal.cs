@@ -1,15 +1,16 @@
 using UnityEngine;
 
 public class Level3Goal : MonoBehaviour, ILevelGoal
-{
-    [SerializeField] private GoalIndicatorUI goalIndicator;
+{ 
+    private GoalIndicatorUI goalIndicator;   
     [SerializeField] private Sprite goalIcon;
-    [SerializeField] private Checkpoint victoryCheckpoint;
+    [SerializeField] private Checkpoint victoryCheckpoint;    
 
     private bool checkpointReached = false;
 
     private void Start()
-    {        
+    {  
+        goalIndicator = FindFirstObjectByType<GoalIndicatorUI>();      
         UpdateGoalIndicator();
     }
 

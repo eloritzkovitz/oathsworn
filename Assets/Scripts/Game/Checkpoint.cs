@@ -13,10 +13,21 @@ public class Checkpoint : MonoBehaviour
                 playerHealth.lastCheckpoint = transform;
                 Debug.Log("Checkpoint reached!");
 
-                // When in scene 2, notify the goal
-                if (SceneManager.GetActiveScene().name == "Scene2")
+                // Get the scene this checkpoint is in
+                string gameplayScene = GameManager.Instance.CurrentGameplayScene;
+                gameplayScene = "Scene2";
+
+                if (gameplayScene == "Scene2")
                 {
                     var goal = FindFirstObjectByType<Level2Goal>();
+                    if (goal != null)
+                    {
+                        goal.OnCheckpointVisited(this);
+                    }
+                }
+                else if (gameplayScene == "Scene3")
+                {
+                    var goal = FindFirstObjectByType<Level3Goal>();
                     if (goal != null)
                     {
                         goal.OnCheckpointVisited(this);

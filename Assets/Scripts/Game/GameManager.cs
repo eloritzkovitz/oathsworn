@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    // Global parameter for current gameplay scene
+    public string CurrentGameplayScene { get; private set; }
+
     // Start a new game
     public void StartNewGame()
     {
@@ -49,12 +52,14 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        CurrentGameplayScene = sceneName;
     }
 
     // Load a scene by build index
     public void LoadScene(int buildIndex)
     {
         SceneManager.LoadScene(buildIndex);
+        CurrentGameplayScene = SceneManager.GetSceneByBuildIndex(buildIndex).name;
     }
 
     // Communicate with level managers

@@ -231,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Name
-      value: PlayerArmature
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_IsActive
@@ -554,6 +554,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       insertIndex: -1
       addedObject: {fileID: 404405422}
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 404405423}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!1 &404405420 stripped
 GameObject:
@@ -577,6 +580,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b9ee2ddb04c5f429609eeebdcb4513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &404405423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404405420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbc6a96b9db473f4dbcd1412d79e1a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  currentHealth: 5
+  healthBar: {fileID: 0}
+  lastCheckpoint: {fileID: 0}
 --- !u!1 &527918219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f00b69e029eb1f6408cc88e0c251ab2a, type: 3}
@@ -684,6 +703,74 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 527918221}
   m_SourcePrefab: {fileID: 100100000, guid: f00b69e029eb1f6408cc88e0c251ab2a, type: 3}
+--- !u!1 &1277578161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1277578164}
+  - component: {fileID: 1277578163}
+  - component: {fileID: 1277578162}
+  m_Layer: 0
+  m_Name: Checkpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1277578162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277578161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67158fcb380d02a4ebea894920d2b709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &1277578163
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277578161}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1277578164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277578161}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 679.9, y: 29, z: 328.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1390932305
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,8 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7882a846faf86f4f8b85b2ef634341c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalIndicator: {fileID: 0}
-  goalIcon: {fileID: 0}
+  goalIcon: {fileID: 21300000, guid: 4d0b73661d61b72458072b76c0c3bd1b, type: 3}
   victoryCheckpoint: {fileID: 0}
 --- !u!1001 &1553269181
 PrefabInstance:
@@ -875,7 +961,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1553269185
@@ -1048,5 +1134,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1390932306}
+  - {fileID: 1277578164}
   - {fileID: 404405419}
   - {fileID: 925347818}

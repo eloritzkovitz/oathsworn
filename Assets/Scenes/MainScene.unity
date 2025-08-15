@@ -4310,7 +4310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &586111690
 Transform:
   m_ObjectHideFlags: 0
@@ -10702,11 +10702,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water
       objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+      propertyPath: m_TagString
+      value: Water
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1280023203}
   m_SourcePrefab: {fileID: 100100000, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+--- !u!1 &1280023202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+  m_PrefabInstance: {fileID: 1280023201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1280023203
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280023202}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 50, y: 1, z: 50}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1286686838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15570,6 +15603,7 @@ MonoBehaviour:
   levelSceneNames:
   - Scene1
   - Scene2
+  - Scene3
   messageText: {fileID: 0}
   delayBeforeNextLevel: 2
 --- !u!4 &1928986993
