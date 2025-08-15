@@ -7,10 +7,10 @@ public class GoalIndicatorUI : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text progressText;
 
-    public void SetGoal(Sprite icon, int current, int total, bool completed)
+    public void SetGoal(Sprite icon, string text, int current, int total, bool completed)
     {
         iconImage.sprite = icon;
-        progressText.text = $"{current}/{total}";
-        Debug.Log($"GoalIndicatorUI updated: {current}/{total}");  
+        progressText.text = $"{text}: {current}/{total}";
+        Debug.Log($"GoalIndicatorUI updated: {current}/{total}");
     }
 }

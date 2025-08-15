@@ -30,7 +30,7 @@ public class Level3Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = checkpointReached;
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, checkpointReached ? 1 : 0, 1, completed);
+            goalIndicator.SetGoal(goalIcon, "Find the lord", checkpointReached ? 1 : 0, 1, completed);
     }
 
     // Called when the goal is completed

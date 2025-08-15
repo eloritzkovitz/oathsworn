@@ -41,7 +41,7 @@ public class Level2Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = checkpointsVisited >= checkpointsToVisit;
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, checkpointsVisited, checkpointsToVisit, completed);
+            goalIndicator.SetGoal(goalIcon, "Checkpoints visited", checkpointsVisited, checkpointsToVisit, completed);
     }
 
     public void OnGoalCompleted()

@@ -26,7 +26,7 @@ public class Level1Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = enemiesKilled >= enemiesToKill;        
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, enemiesKilled, enemiesToKill, completed);
+            goalIndicator.SetGoal(goalIcon, "Enemies killed", enemiesKilled, enemiesToKill, completed);
     }
 
     // Called when an enemy is killed
