@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Level3Goal : MonoBehaviour, ILevelGoal
 { 
-    private GoalIndicatorUI goalIndicator;   
-    [SerializeField] private Sprite goalIcon;
+    private GoalIndicatorUI goalIndicator;       
     [SerializeField] private Checkpoint victoryCheckpoint;    
 
     private bool checkpointReached = false;
@@ -30,7 +29,7 @@ public class Level3Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = checkpointReached;
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, "Find the lord", checkpointReached ? 1 : 0, 1, completed);
+            goalIndicator.SetGoal("Find the lord", checkpointReached ? 1 : 0, 1, completed);
     }
 
     // Called when the goal is completed

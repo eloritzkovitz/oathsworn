@@ -23,10 +23,6 @@ public class GameManager : MonoBehaviour
             Destroy(player.gameObject);
         }
 
-        // Reset global game state
-        if (GameSettings.Instance != null)
-            GameSettings.Instance.ResetGame();
-
         // Load MainScene
         LoadScene("MainScene");
     }

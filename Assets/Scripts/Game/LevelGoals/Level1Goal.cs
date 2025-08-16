@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class Level1Goal : MonoBehaviour, ILevelGoal
 {    
-    private int enemiesToKill;
+    private int enemiesToKill = 0;
     private int enemiesKilled = 0;
 
-    private GoalIndicatorUI goalIndicator;
-    [SerializeField] private Sprite goalIcon;       
+    private GoalIndicatorUI goalIndicator;        
 
     private void Start()
     {
@@ -26,7 +25,7 @@ public class Level1Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = enemiesKilled >= enemiesToKill;        
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, "Enemies killed", enemiesKilled, enemiesToKill, completed);
+            goalIndicator.SetGoal("Enemies killed", enemiesKilled, enemiesToKill, completed);
     }
 
     // Called when an enemy is killed

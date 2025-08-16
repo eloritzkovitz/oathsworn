@@ -9,7 +9,24 @@ public class PlayerHealth : MonoBehaviour
     
     void Start()
     {
-        currentHealth = maxHealth;
+        // Set starting health based on difficulty
+        int difficulty = GameSettings.Instance != null ? GameSettings.Instance.difficultyLevel : 0;
+        Debug.Log("Difficulty level: " + difficulty);
+        switch (difficulty)
+        {
+            case 0: // Easy
+                currentHealth = 5;
+                break;
+            case 1: // Medium
+                currentHealth = 3;
+                break;
+            case 2: // Hard
+                currentHealth = 1;
+                break;
+            default:
+                currentHealth = maxHealth;
+                break;
+        }
         
         if (healthBar == null)
         {

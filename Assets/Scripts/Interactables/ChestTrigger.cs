@@ -18,6 +18,17 @@ public class ChestTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNear = true;
+
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                // Restore one health if below 5
+                if (playerHealth.currentHealth < 5)
+                {
+                    playerHealth.currentHealth += 1;
+                    playerHealth.healthBar.SetHealth(playerHealth.currentHealth);
+                }
+            }
         }
     }
 

@@ -7,8 +7,7 @@ public class Level2Goal : MonoBehaviour, ILevelGoal
     private int checkpointsVisited = 0;
     private HashSet<Checkpoint> visitedCheckpoints = new HashSet<Checkpoint>();
 
-    private GoalIndicatorUI goalIndicator;
-    [SerializeField] private Sprite goalIcon;
+    private GoalIndicatorUI goalIndicator;    
     [SerializeField] private Checkpoint[] checkpoints;
 
     private void Start()
@@ -41,7 +40,7 @@ public class Level2Goal : MonoBehaviour, ILevelGoal
     {
         bool completed = checkpointsVisited >= checkpointsToVisit;
         if (goalIndicator != null)
-            goalIndicator.SetGoal(goalIcon, "Checkpoints visited", checkpointsVisited, checkpointsToVisit, completed);
+            goalIndicator.SetGoal("Reach the castle. Checkpoints visited", checkpointsVisited, checkpointsToVisit, completed);
     }
 
     public void OnGoalCompleted()
