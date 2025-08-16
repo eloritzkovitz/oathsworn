@@ -43,13 +43,46 @@ public class LevelManager : MonoBehaviour
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             Debug.Log($"Loaded level: {sceneName}");
-            currentLevelIndex = index;            
+            currentLevelIndex = index;     
+
+            // Wait for the level to load and assign the player transform to the minimap
+            StartCoroutine(AssignMinimapPlayerAfterLoad(sceneName));
         }
         else
         {
             Debug.LogWarning($"Scene {sceneName} is already loaded.");
         }
-    }    
+    }
+
+    // Assign the player transform to the minimap after the level is loaded
+    private IEnumerator AssignMinimapPlayerAfterLoad(string sceneName)
+    {
+        // Wait until the scene is loaded
+        while (!SceneManager.GetSceneByName(sceneName).isLoaded)
+        {
+            yield return null;
+        }
+
+        // Wait one more frame to ensure objects are initialized
+        yield return null;
+
+        // Find the player and minimap, then assign
+        var player = GameObject.FindWithTag("Player");
+        var minimap = FindFirstObjectByType<MinimapFollow>();
+        if (minimap != null && player != null)
+        {
+            minimap.SetPlayer(player.transform);
+            Debug.Log("Minimap player assigned.");
+        }
+
+        // Assign player to minimap dot
+        var playerDot = FindFirstObjectByType<MinimapPlayerDot>();
+        if (playerDot != null && player != null)
+        {
+            playerDot.player = player.transform;
+            Debug.Log("Minimap player dot assigned.");
+        }
+    }
 
     // Called when the level is completed
     public void CompleteCurrentLevel()
