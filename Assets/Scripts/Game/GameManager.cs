@@ -4,6 +4,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public Canvas endScreenCanvas;
+    public UnityEngine.UI.Image endScreenImage;
+    public TMPro.TextMeshProUGUI endScreenTitle;
+    public TMPro.TextMeshProUGUI endScreenMessage;
+    public Sprite victorySprite;
+    public Sprite defeatSprite;
 
     // Global parameter for current gameplay scene
     public string CurrentGameplayScene { get; private set; }
@@ -102,6 +108,56 @@ public class GameManager : MonoBehaviour
               levelManager.OnLevelStart();
             }
         }
+    }
+
+    // Handle victory conditions
+    public void HandleVictory()
+    {
+        Debug.Log("Victory!");
+        string title = "Victory!";
+        string message = "You reached the lord and fulfilled your mission. With your valor, the prince was able to reclaim his throne. Peace has been restored!";
+        ShowEndScreen(title, message, true);
+    }
+
+    // Handle defeat conditions
+    public void HandleDefeat()
+    {
+        Debug.Log("Defeat!");
+        string title = "You are dead!";
+        string message = "You have died, and with you the hope to save the realm. All is now lost.";
+        ShowEndScreen(title, message, false);
+
+        // Disable player controls
+        var playerObj = GameObject.Find("Player");
+        if (playerObj != null)
+        {
+            playerObj.SetActive(false);
+        }
+    }
+
+    // Show the end screen UI with the given title and message
+    public void ShowEndScreen(string title, string message, bool isVictory)
+    {
+        // Find and disable the main UI
+        var mainScreenUI = GameObject.Find("UI");
+        if (mainScreenUI != null)
+        {
+            mainScreenUI.SetActive(false);
+        }
+
+        // Enable the end screen UI        
+        if (endScreenCanvas != null)
+        {
+            endScreenCanvas.gameObject.SetActive(true);
+
+            endScreenTitle.text = title;
+            endScreenMessage.text = message;
+            endScreenImage.sprite = isVictory ? victorySprite : defeatSprite;
+        }
+        else
+        {
+            Debug.LogWarning("End screen canvas is not assigned!");
+        }        
     }
 
     // Quit the game

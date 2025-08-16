@@ -36,6 +36,6 @@ public class Level3Goal : MonoBehaviour, ILevelGoal
     // Called when the goal is completed
     public void OnGoalCompleted()
     {
-        LevelManager.Instance.CompleteCurrentLevel();
+        GameManager.Instance.HandleVictory();
     }
 }

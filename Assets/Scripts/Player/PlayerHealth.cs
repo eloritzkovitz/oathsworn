@@ -51,6 +51,20 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.LogWarning("HealthBarUI reference is missing!");
         }
+
+        // Handle defeat when health reaches 0
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.HandleDefeat();
+            }
+            else
+            {
+                Debug.LogWarning("GameManager.Instance is null!");
+            }
+        }
     }
 
     // Called when the player respawns

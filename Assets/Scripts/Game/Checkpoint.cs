@@ -14,10 +14,10 @@ public class Checkpoint : MonoBehaviour
                 Debug.Log("Checkpoint reached!");
 
                 // Get the scene this checkpoint is in
-                string gameplayScene = GameManager.Instance.CurrentGameplayScene;
-                gameplayScene = "Scene2";
+                string checkpointScene = gameObject.scene.name;
+                //checkpointScene = "Scene2";
 
-                if (gameplayScene == "Scene2")
+                if (checkpointScene == "Scene2")
                 {
                     var goal = FindFirstObjectByType<Level2Goal>();
                     if (goal != null)
@@ -25,7 +25,7 @@ public class Checkpoint : MonoBehaviour
                         goal.OnCheckpointVisited(this);
                     }
                 }
-                else if (gameplayScene == "Scene3")
+                else if (checkpointScene == "Scene3")
                 {
                     var goal = FindFirstObjectByType<Level3Goal>();
                     if (goal != null)
