@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;    
     private bool isDead = false;
     private float attackTimer = 0f;
+    public bool isChasingPlayer = false;
     private bool hasHitPlayer = false;
     private bool hasPlayedDiscover = false;
 
@@ -41,14 +42,15 @@ public class EnemyAI : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= detectionRange)
-        {
+        {            
             // Play discover sound once on discovery
             if (!hasPlayedDiscover && discoverSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(discoverSound);
-                hasPlayedDiscover = true;
+                hasPlayedDiscover = true;                
             }
 
+            isChasingPlayer = true;
             agent.SetDestination(player.position);
             float speed = agent.velocity.magnitude;
             animator.SetFloat("Speed", speed);
@@ -76,6 +78,7 @@ public class EnemyAI : MonoBehaviour
                         animator.SetTrigger("Attack");
                         attackTimer = attackCooldown;
                         hasHitPlayer = true;
+                        isChasingPlayer = false;
                     }
                 }
             }
@@ -83,15 +86,17 @@ public class EnemyAI : MonoBehaviour
             {
                 attackTimer = 0f;
                 hasHitPlayer = false;
-            }                      
+                isChasingPlayer = false;
+            }
         }
         else
         {
-            agent.ResetPath();
+            //agent.ResetPath();
             animator.SetFloat("Speed", 0);
             attackTimer = 0f;
             hasHitPlayer = false;
             hasPlayedDiscover = false;
+            isChasingPlayer = false;
         }
     }
 
