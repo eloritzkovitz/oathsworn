@@ -10,7 +10,9 @@ public class EnemyAI : MonoBehaviour
     public float attackCooldown = 1f;
     public float deathAnimLength = 2f;
 
-    public AudioClip deathSound;
+    public AudioClip discoverSound;
+    public AudioClip attackSound;
+    public AudioClip deathSound;    
     private AudioSource audioSource;
 
     private NavMeshAgent agent;
@@ -18,13 +20,18 @@ public class EnemyAI : MonoBehaviour
     private bool isDead = false;
     private float attackTimer = 0f;
     private bool hasHitPlayer = false;
+    private bool hasPlayedDiscover = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        hasHitPlayer = false;
+        hasHitPlayer = false;        
+
+        attackSound = Resources.Load<AudioClip>("Audio/SFX/slash-attack");
+        discoverSound = Resources.Load<AudioClip>("Audio/SFX/discover");
+        deathSound = Resources.Load<AudioClip>("Audio/SFX/death-scream");
     }
 
     void Update()
@@ -35,6 +42,13 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange)
         {
+            // Play discover sound once on discovery
+            if (!hasPlayedDiscover && discoverSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(discoverSound);
+                hasPlayedDiscover = true;
+            }
+
             agent.SetDestination(player.position);
             float speed = agent.velocity.magnitude;
             animator.SetFloat("Speed", speed);
@@ -77,6 +91,7 @@ public class EnemyAI : MonoBehaviour
             animator.SetFloat("Speed", 0);
             attackTimer = 0f;
             hasHitPlayer = false;
+            hasPlayedDiscover = false;
         }
     }
 
@@ -84,6 +99,10 @@ public class EnemyAI : MonoBehaviour
     public void OnAttackAnimationHit()
     {
         if (player == null || isDead) return;
+
+        // Play attack sound only when attack animation hits
+        if (attackSound != null && audioSource != null)
+            audioSource.PlayOneShot(attackSound);
  
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= attackRange)

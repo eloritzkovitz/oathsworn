@@ -4,12 +4,24 @@ public class LootableWeapon : MonoBehaviour
 {
     public WeaponData weaponData;
 
+    private AudioSource audioSource;
+    private AudioClip swordDrawSound;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        // Load the audio clip from Resources
+        swordDrawSound = Resources.Load<AudioClip>("Audio/SFX/sword-draw");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"You can pick up: {weaponData.weaponName} (Press F)");
-            // Show UI prompt here
+            Debug.Log($"You can pick up: {weaponData.weaponName} (Press F)");            
         }
     }
 
@@ -21,12 +33,14 @@ public class LootableWeapon : MonoBehaviour
         }
     }
 
+    // Handle item pickup
     private void Pickup(GameObject player)
     {
-        Debug.Log($"Picked up: {weaponData.weaponName}");
-        // Option 1: Attach to player
-        // Option 2: Add to inventory
-        Destroy(gameObject); // Remove from world
+        if (swordDrawSound != null && audioSource != null)
+            audioSource.PlayOneShot(swordDrawSound);
+        
+        Debug.Log($"Picked up: {weaponData.weaponName}");        
+        Destroy(gameObject);
     }
 }
 

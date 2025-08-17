@@ -5,12 +5,33 @@ public class ChestTrigger : MonoBehaviour
     public Animator chestAnimator;
     private bool isPlayerNear = false;
 
+    private AudioSource audioSource;
+    private AudioClip chestOpenSound;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        // Load the audio clip from Resources (no file extension)
+        chestOpenSound = Resources.Load<AudioClip>("Audio/SFX/chest-opening");
+    }
+
     void Update()
     {
         if (isPlayerNear && Input.GetKeyDown(KeyCode.F))
         {
             chestAnimator.SetTrigger("OpenChest");
+            PlayChestOpenSound();
         }
+    }
+
+    // Play chest open sound
+    private void PlayChestOpenSound()
+    {
+        if (chestOpenSound != null && audioSource != null)
+            audioSource.PlayOneShot(chestOpenSound);
     }
 
     void OnTriggerEnter(Collider other)
