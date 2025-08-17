@@ -41,12 +41,8 @@ public class LevelManager : MonoBehaviour
         string sceneName = levelSceneNames[index];
         if (!SceneManager.GetSceneByName(sceneName).isLoaded)
         {
-            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            Debug.Log($"Loaded level: {sceneName}");
-            currentLevelIndex = index;     
-
-            // Wait for the level to load and assign the player transform to the minimap
-            StartCoroutine(AssignMinimapPlayerAfterLoad(sceneName));
+            GameManager.Instance.LoadLevelAdditive(sceneName, index, () => StartCoroutine(AssignMinimapPlayerAfterLoad(sceneName)));
+            currentLevelIndex = index;
         }
         else
         {

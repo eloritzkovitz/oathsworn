@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [SerializeField] private List<Sprite> levelLoadingImages;    
+    [SerializeField] private List<string> levelLoadingMessages; 
+
     public Canvas endScreenCanvas;
     public UnityEngine.UI.Image endScreenImage;
     public TMPro.TextMeshProUGUI endScreenTitle;
@@ -13,29 +19,6 @@ public class GameManager : MonoBehaviour
 
     // Global parameter for current gameplay scene
     public string CurrentGameplayScene { get; private set; }
-
-    // Start a new game
-    public void StartNewGame()
-    {
-        // Destroy all existing players
-        foreach (var player in Object.FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None))
-        {
-            Destroy(player.gameObject);
-        }
-
-        // Load MainScene
-        LoadScene("MainScene");
-    }
-
-    // Set the game difficulty
-    public void SetDifficulty(int difficulty)
-    {
-        if (GameSettings.Instance != null)
-        {
-            GameSettings.Instance.difficultyLevel = difficulty;
-            Debug.Log("Difficulty set in GameManager: " + difficulty);           
-        }
-    }
 
     private void Awake()
     {
@@ -48,20 +31,119 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }    
+
+    // Start a new game
+    public void StartNewGame()
+    {
+        // Destroy all existing players
+        foreach (var player in Object.FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None))
+        {
+            Destroy(player.gameObject);
+        }
+
+        // Load MainScene
+        LoadSceneAsync("MainScene");
     }
 
-    // Load a scene by name
-    public void LoadScene(string sceneName)
+    // Set the game difficulty
+    public void SetDifficulty(int difficulty)
     {
-        SceneManager.LoadScene(sceneName);
+        if (GameSettings.Instance != null)
+        {
+            GameSettings.Instance.difficultyLevel = difficulty;
+            Debug.Log("Difficulty set in GameManager: " + difficulty);           
+        }
+    }
+
+    // Load a scene asynchronously (single)
+    public void LoadSceneAsync(string sceneName)
+    {
+        StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
+    }
+
+    // Coroutine to load a scene asynchronously (single)
+    private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
+    {
+        // Show loading screen
+        if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingScreen != null)
+            LoadingScreenManager.Instance.loadingScreen.SetActive(true);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        float minLoadingTime = 5f;
+        float elapsedTime = 0f;
+
+        // Update progress bar and wait for both scene load and minimum time
+        while (asyncLoad.progress < 0.9f || elapsedTime < minLoadingTime)
+        {
+            elapsedTime += Time.deltaTime;
+            if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingSlider != null)
+                LoadingScreenManager.Instance.loadingSlider.value = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            yield return null;
+        }
+
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone)
+            yield return null;
+
+        // Hide loading screen
+        if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingScreen != null)
+            LoadingScreenManager.Instance.loadingScreen.SetActive(false);
+
         CurrentGameplayScene = sceneName;
     }
 
-    // Load a scene by build index
-    public void LoadScene(int buildIndex)
+    // Load a scene asynchronously (additive, for levels)
+    public void LoadLevelAdditive(string sceneName, int index, System.Action onLoaded = null)
     {
-        SceneManager.LoadScene(buildIndex);
-        CurrentGameplayScene = SceneManager.GetSceneByBuildIndex(buildIndex).name;
+        StartCoroutine(LoadLevelAdditiveCoroutine(sceneName, index, onLoaded));
+    }
+
+    private IEnumerator LoadLevelAdditiveCoroutine(string sceneName, int index, System.Action onLoaded)
+    {
+        // Show loading screen
+        if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingScreen != null)
+            LoadingScreenManager.Instance.loadingScreen.SetActive(true);
+
+        // Set custom loading image/text if available
+        if (LoadingScreenManager.Instance != null)
+        {
+            if (levelLoadingImages != null && index < levelLoadingImages.Count && LoadingScreenManager.Instance.loadingImage != null)
+                LoadingScreenManager.Instance.loadingImage.sprite = levelLoadingImages[index];
+            if (levelLoadingMessages != null && index < levelLoadingMessages.Count && LoadingScreenManager.Instance.loadingText != null)
+                LoadingScreenManager.Instance.loadingText.text = levelLoadingMessages[index];
+        }
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        asyncLoad.allowSceneActivation = false;
+
+        float minLoadingTime = 5f;
+        float elapsedTime = 0f;
+
+        while (asyncLoad.progress < 0.9f || elapsedTime < minLoadingTime)
+        {
+            elapsedTime += Time.deltaTime;
+            if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingSlider != null)
+                LoadingScreenManager.Instance.loadingSlider.value = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            yield return null;
+        }
+
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone)
+            yield return null;
+
+        // Hide loading screen
+        if (LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.loadingScreen != null)
+            LoadingScreenManager.Instance.loadingScreen.SetActive(false);
+
+        CurrentGameplayScene = sceneName;
+
+        // Callback for LevelManager to assign minimap/player
+        onLoaded?.Invoke();
     }
 
     // Communicate with level managers

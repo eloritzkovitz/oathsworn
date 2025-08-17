@@ -3411,6 +3411,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35315afd51509884f964bb256a3c91d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelLoadingImages:
+  - {fileID: 21300000, guid: 27eee73e31584ca41a5ace2496e0ed8a, type: 3}
+  - {fileID: 21300000, guid: c4edb9be708f71948ace42776fb9e303, type: 3}
+  - {fileID: 21300000, guid: 97a2d5aac676f9d43b395dcf06672946, type: 3}
+  levelLoadingMessages:
+  - The road ahead is dangerous. You must eliminate the enemy!
+  - Tread carefully through the path. You must reach the castle without being discovered!
+  - Safe within the castle's walls, you must find the lord and deliver your message.
   endScreenCanvas: {fileID: 196537605}
   endScreenImage: {fileID: 1199936783}
   endScreenTitle: {fileID: 1079683222}
