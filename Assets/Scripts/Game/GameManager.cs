@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
         string title = "Victory!";
         string message = "You reached the lord and fulfilled your mission. With your valor, the prince was able to reclaim his throne. Peace has been restored!";
         ShowEndScreen(title, message, true);
+        DisableGameplayObjects();
     }
 
     // Handle defeat conditions
@@ -194,23 +195,17 @@ public class GameManager : MonoBehaviour
         string title = "You are dead!";
         string message = "You have died, and with you the hope to save the realm. All is now lost.";
         ShowEndScreen(title, message, false);
-
-        // Disable player controls
-        var playerObj = GameObject.Find("Player");
-        if (playerObj != null)
-        {
-            playerObj.SetActive(false);
-        }
+        DisableGameplayObjects();
     }
 
     // Show the end screen UI with the given title and message
     public void ShowEndScreen(string title, string message, bool isVictory)
     {
-        // Find and disable the main UI
-        var mainScreenUI = GameObject.Find("UI");
-        if (mainScreenUI != null)
+        // Disable all canvases except the end screen
+        foreach (Canvas canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
         {
-            mainScreenUI.SetActive(false);
+            if (canvas != endScreenCanvas)
+                canvas.gameObject.SetActive(false);
         }
 
         // Enable the end screen UI        
@@ -226,6 +221,22 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("End screen canvas is not assigned!");
         }        
+    }
+
+    // Disable gameplay objects and controls
+    private void DisableGameplayObjects()
+    {
+        // Disable all player objects
+        foreach (var player in Object.FindObjectsByType<PlayerHealth>(FindObjectsSortMode.None))
+        {
+            player.gameObject.SetActive(false);
+        }
+
+        // Disable all enemy objects
+        foreach (var enemy in Object.FindObjectsByType<EnemyAI>(FindObjectsSortMode.None))
+        { 
+            enemy.gameObject.SetActive(false);
+        }       
     }
 
     // Quit the game
