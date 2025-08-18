@@ -11,8 +11,6 @@ public class PlayerAnimatorController : MonoBehaviour
     private AudioClip footstepsSound;
     private AudioClip jumpSound;
 
-    private bool wasJumping = false;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();

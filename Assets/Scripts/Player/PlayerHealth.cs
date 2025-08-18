@@ -9,25 +9,38 @@ public class PlayerHealth : MonoBehaviour
     
     void Start()
     {
-        // Set starting health based on difficulty
-        int difficulty = GameSettings.Instance != null ? GameSettings.Instance.difficultyLevel : 0;
-        Debug.Log("Difficulty level: " + difficulty);
-        switch (difficulty)
+        // Use persistent health if available
+        if (GameManager.Instance != null && GameManager.Instance.playerHealth > 0)
         {
-            case 0: // Easy
-                currentHealth = 5;
-                break;
-            case 1: // Medium
-                currentHealth = 3;
-                break;
-            case 2: // Hard
-                currentHealth = 1;
-                break;
-            default:
-                currentHealth = maxHealth;
-                break;
+            currentHealth = GameManager.Instance.playerHealth;
         }
-        
+        else
+        {
+            // Set starting health based on difficulty
+            int difficulty = GameSettings.Instance != null ? GameSettings.Instance.difficultyLevel : 0;
+            Debug.Log("Difficulty level: " + difficulty);
+            switch (difficulty)
+            {
+                case 0: // Easy
+                    currentHealth = 5;
+                    break;
+                case 1: // Medium
+                    currentHealth = 3;
+                    break;
+                case 2: // Hard
+                    currentHealth = 1;
+                    break;
+                default:
+                    currentHealth = maxHealth;
+                    break;
+            }
+            // Save initial health to GameManager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.playerHealth = currentHealth;
+            }
+        }
+
         if (healthBar == null)
         {
             healthBar = FindFirstObjectByType<HealthBarUI>();
@@ -60,6 +73,12 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         Debug.Log("Player took damage, health now: " + currentHealth);
 
+        // Sync health with GameManager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.playerHealth = currentHealth;
+         }
+
         if (healthBar != null)
         {
             healthBar.SetHealth(currentHealth);
@@ -75,6 +94,7 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = 0;
             if (GameManager.Instance != null)
             {
+                GameManager.Instance.playerHealth = currentHealth; // Ensure health is 0 in GameManager
                 GameManager.Instance.HandleDefeat();
             }
             else

@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public Sprite victorySprite;
     public Sprite defeatSprite;
 
+    public int playerHealth = 5;
+
     // Global parameter for current gameplay scene
     public string CurrentGameplayScene { get; private set; }
 
@@ -158,19 +160,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Reset player state when the first gameplay scene is loaded
-        if (scene.name == "Scene1")
-        {
-            PlayerHealth player = Object.FindFirstObjectByType<PlayerHealth>();
-            if (player != null)
-            {
-                player.lastCheckpoint = null;
-                player.currentHealth = player.maxHealth;            
-            }
-        }
-
-        // Only trigger OnLevelStart for the MainScene
+    {        
         if (scene.name == "MainScene")
         {
             // Reset checkpoints for all players
